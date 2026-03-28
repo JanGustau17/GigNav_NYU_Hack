@@ -21,13 +21,38 @@ All coordinated by an **A2A (Agent-to-Agent) orchestrator** using Google ADK.
 
 ## Architecture
 
-```
-Voice (STT/TTS) → [Orchestrator Agent]
-                         ↕ A2A Protocol
-            [Data Agent]  ←→  [Navigator Agent]
-                ↓                    ↓
-           BigQuery             Computer Use
-          (DCWP Data)       (Browser Automation)
+GigNav utilizes a multi-tiered architecture built on the Google Agent Development Kit (ADK) and the Agent-to-Agent (A2A) protocol. The system is designed to provide a seamless voice interface while coordinating specialized AI agents to handle complex data and browser navigation tasks.
+
+### 1. Voice Interface Layer
+- **Components:** `voice_ui.html`, `voice_app.py`
+- **Technology:** FastAPI, WebSockets, Gemini Live API (Bidi-Streaming), Web Speech API
+- **Role:** Provides real-time, bi-directional audio and text communication between the delivery worker and the system.
+
+### 2. Orchestrator Layer
+- **Components:** `agents/orchestrator/agent.py`
+- **Technology:** Google ADK, Gemini 2.5 Flash
+- **Role:** The main coordinator. It manages the conversational state, interprets user requests, and delegates specific tasks to specialized sub-agents.
+
+### 3. Specialized Agent Layer (A2A)
+- **Data Agent (`agents/data_agent/agent.py`):** Uses DCWP quarterly data (via `data_tool.py` or BigQuery) to perform wage equity calculations, compare earnings against the NYC minimum rate ($22.13/hr), and generate complaint text.
+- **Navigator Agent (`web_agent.py` / `agents/navigator_agent`):** A browser automation specialist powered by the Gemini 3 Flash Computer Use API and Playwright. It autonomously "reads" earnings screens to extract data and fills out NYC DCWP wage complaint forms.
+
+### 4. Data & Environment Layer
+- **BigQuery / DCWP Data:** Source of truth for NYC delivery worker statistics and minimum pay regulations (Admin Code 20-1522).
+- **Computer Environments:** The delivery app dashboard (`mock_earnings.html`) and the DCWP wage complaint form (`mock_form.html`).
+
+```mermaid
+graph TD
+    User((Delivery Worker)) <-->|Voice/Text| UI[Voice Interface Layer]
+    UI <-->|WebSocket + Gemini Live API| Orch[Orchestrator Agent]
+    
+    Orch <-->|A2A Protocol| DataAgent[Data Agent]
+    Orch <-->|A2A Protocol| NavAgent[Navigator Agent]
+    
+    DataAgent -->|Queries| BQ[(BigQuery: DCWP Data)]
+    NavAgent -->|Computer Use| Browser[Playwright Browser]
+    Browser -->|Reads| Earnings[Earnings Dashboard]
+    Browser -->|Fills| Form[DCWP Complaint Form]
 ```
 
 See `architecture.html` for the full visual diagram.
@@ -149,5 +174,10 @@ Each agent can operate independently or be coordinated through the orchestrator.
 7. TTS speaks the results and confirmation back to the worker
 
 ## Team
+
+- Abby Zhang: abby.zhang030@gmail.com
+- Nashita Bhuiyan: nashita0bhuiyan4@gmail.com
+- Sabina Ruzieva: sabinaruzieva04@gmal.com
+- Mukhammadali Yuldoshev: mukhammadali.ny@gmail.com
 
 Built at the 2026 NYC Google Cloud Hackathon
