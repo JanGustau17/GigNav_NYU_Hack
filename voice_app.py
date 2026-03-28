@@ -58,6 +58,22 @@ async def form():
         return HTMLResponse(f.read())
 
 
+@app.get("/form-filled")
+async def form_filled():
+    """Serve the auto-filled complaint form (demo)."""
+    html_path = os.path.join(os.path.dirname(__file__), "mock_form_filled.html")
+    with open(html_path) as f:
+        return HTMLResponse(f.read())
+
+
+@app.get("/architecture")
+async def architecture():
+    """Serve the architecture diagram."""
+    html_path = os.path.join(os.path.dirname(__file__), "architecture.html")
+    with open(html_path) as f:
+        return HTMLResponse(f.read())
+
+
 @app.websocket("/ws/{user_id}/{session_id}")
 async def websocket_endpoint(websocket: WebSocket, user_id: str, session_id: str):
     """WebSocket endpoint for real-time voice + text communication."""

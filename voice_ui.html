@@ -148,18 +148,59 @@
         let sessionId = 'session_' + Date.now();
 
         // Connect text WebSocket
+        let currentAgentBubble = null;
+        let currentAgentText = '';
+        let speakTimeout = null;
+
         function connectTextWS() {
             ws = new WebSocket(`ws://${location.host}/ws/text/${userId}/${sessionId}`);
             ws.onmessage = (event) => {
                 const data = JSON.parse(event.data);
                 if (data.type === 'text' && data.content) {
-                    addMessage('agent', data.content);
-                    ttsText.textContent = data.content;
-                    speakText(data.content);
+                    // Accumulate streaming text into one bubble
+                    currentAgentText += data.content;
+                    if (!currentAgentBubble) {
+                        currentAgentBubble = addMessageStreaming('agent', currentAgentText);
+                    } else {
+                        currentAgentBubble.innerHTML = formatText(currentAgentText);
+                    }
+                    ttsText.textContent = currentAgentText.slice(-200);
+                    messagesDiv.scrollTop = messagesDiv.scrollHeight;
+
+                    // Speak after 2s of no new tokens, reset for next message
+                    clearTimeout(speakTimeout);
+                    speakTimeout = setTimeout(() => {
+                        // Deduplicate repeated text
+                        let clean = currentAgentText;
+                        const half = Math.floor(clean.length / 2);
+                        if (half > 50 && clean.slice(0, half) === clean.slice(half, half * 2)) {
+                            clean = clean.slice(0, half);
+                            currentAgentBubble.innerHTML = formatText(clean);
+                        }
+                        speakText(clean);
+                        currentAgentBubble = null;
+                        currentAgentText = '';
+                    }, 2000);
                 }
             };
             ws.onclose = () => setTimeout(connectTextWS, 3000);
             ws.onerror = () => {};
+        }
+
+        function formatText(text) {
+            return text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+                       .replace(/\n/g, '<br>')
+                       .replace(/\$([\d,.]+)/g, '<strong style="color:#3fb950">$$$1</strong>');
+        }
+
+        function addMessageStreaming(role, text) {
+            const avatar = role === 'agent' ? 'G' : 'U';
+            const div = document.createElement('div');
+            div.className = `message ${role}`;
+            div.innerHTML = `<div class="avatar">${avatar}</div><div class="bubble">${formatText(text)}</div>`;
+            messagesDiv.appendChild(div);
+            messagesDiv.scrollTop = messagesDiv.scrollHeight;
+            return div.querySelector('.bubble');
         }
 
         function addMessage(role, text) {

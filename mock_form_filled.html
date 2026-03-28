@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NYC DCWP - Delivery Worker Wage Complaint Form</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #f5f5f5; color: #1a1a1a; min-height: 100vh; }
+        .header { background: #003366; padding: 16px 24px; border-bottom: 4px solid #f7941d; }
+        .header-inner { max-width: 800px; margin: 0 auto; display: flex; align-items: center; gap: 16px; }
+        .header h1 { color: white; font-size: 18px; font-weight: 600; }
+        .header .subtitle { color: #a8c4e0; font-size: 13px; }
+        .nyc-logo { color: white; font-size: 24px; font-weight: 800; letter-spacing: -1px; }
+        .container { max-width: 800px; margin: 24px auto; padding: 0 16px; }
+        .breadcrumb { font-size: 13px; color: #666; margin-bottom: 16px; }
+        .breadcrumb a { color: #003366; text-decoration: none; }
+        .form-card { background: white; border-radius: 8px; padding: 32px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
+        .form-card h2 { font-size: 22px; color: #003366; margin-bottom: 8px; }
+        .form-card .desc { color: #666; font-size: 14px; margin-bottom: 24px; line-height: 1.5; }
+        .form-section { margin-bottom: 24px; }
+        .form-section h3 { font-size: 16px; color: #003366; margin-bottom: 12px; padding-bottom: 8px; border-bottom: 2px solid #f7941d; }
+        .form-group { margin-bottom: 16px; }
+        .form-group label { display: block; font-size: 14px; font-weight: 600; color: #333; margin-bottom: 6px; }
+        .form-group label .required { color: #d32f2f; }
+        .form-group input, .form-group select, .form-group textarea {
+            width: 100%; padding: 10px 14px; font-size: 15px; border: 2px solid #1a73e8;
+            border-radius: 6px; background: #e8f0fe; transition: border-color 0.2s;
+            font-family: inherit; color: #1a1a1a;
+        }
+        .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+        .form-group textarea { min-height: 80px; resize: vertical; }
+        .submit-btn {
+            background: #003366; color: white; border: none; padding: 14px 40px;
+            font-size: 16px; font-weight: 600; border-radius: 6px; cursor: pointer;
+            width: 100%; margin-top: 8px; transition: background 0.2s;
+        }
+        .submit-btn:hover { background: #004c99; }
+        .info-box { background: #e8f0fe; border-left: 4px solid #003366; padding: 12px 16px; margin-bottom: 20px; border-radius: 0 6px 6px 0; }
+        .info-box p { font-size: 13px; color: #333; line-height: 1.5; }
+        .agent-badge { display: inline-block; background: #1a73e8; color: white; font-size: 11px; padding: 2px 8px; border-radius: 10px; margin-left: 8px; }
+        .filled-by { background: #e6f4ea; border: 1px solid #34a853; border-radius: 8px; padding: 12px 16px; margin-bottom: 20px; display: flex; align-items: center; gap: 10px; }
+        .filled-by .icon { font-size: 20px; }
+        .filled-by .text { font-size: 13px; color: #1e7e34; }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="header-inner">
+            <div class="nyc-logo">NYC</div>
+            <div>
+                <h1>Department of Consumer and Worker Protection</h1>
+                <div class="subtitle">Delivery Worker Wage Complaint</div>
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        <div class="breadcrumb">
+            <a href="#">DCWP Home</a> &gt; <a href="#">Worker Protection</a> &gt; Wage Complaint Form
+        </div>
+
+        <div class="form-card">
+            <h2>Delivery Worker Minimum Pay Rate Complaint</h2>
+            <div class="desc">Use this form to report potential violations of NYC's minimum pay rate for app-based delivery workers. The current minimum rate is <strong>$22.13/hr</strong> effective April 1, 2026.</div>
+
+            <div class="filled-by">
+                <div class="icon">&#129302;</div>
+                <div class="text"><strong>Auto-filled by GigNav Navigator Agent</strong> using Gemini Computer Use API. All fields populated from earnings dashboard data and DCWP analysis.</div>
+            </div>
+
+            <div class="info-box">
+                <p><strong>Important:</strong> Under NYC Administrative Code 20-1522, delivery apps must pay workers at least the minimum pay rate for all hours worked, including on-call time. Filing this complaint is protected activity.</p>
+            </div>
+
+            <form id="complaintForm">
+                <div class="form-section">
+                    <h3>Worker Information <span class="agent-badge">Auto-filled</span></h3>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Full Name <span class="required">*</span></label>
+                            <input type="text" value="Carlos Rivera" readonly>
+                        </div>
+                        <div class="form-group">
+                            <label>Worker ID</label>
+                            <input type="text" value="QE-2024-88431" readonly>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Email <span class="required">*</span></label>
+                            <input type="email" value="carlos.rivera@email.com" readonly>
+                        </div>
+                        <div class="form-group">
+                            <label>Phone</label>
+                            <input type="tel" value="(718) 555-0142" readonly>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Borough <span class="required">*</span></label>
+                        <input type="text" value="Bronx" readonly>
+                    </div>
+                </div>
+
+                <div class="form-section">
+                    <h3>Delivery App Information <span class="agent-badge">Auto-filled</span></h3>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>App Platform <span class="required">*</span></label>
+                            <input type="text" value="UberEats" readonly>
+                        </div>
+                        <div class="form-group">
+                            <label>Vehicle Type</label>
+                            <input type="text" value="E-Bike" readonly>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-section">
+                    <h3>Earnings Details <span class="agent-badge">Auto-filled</span></h3>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Pay Period Start <span class="required">*</span></label>
+                            <input type="text" value="2026-03-17" readonly>
+                        </div>
+                        <div class="form-group">
+                            <label>Pay Period End <span class="required">*</span></label>
+                            <input type="text" value="2026-03-23" readonly>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Total Hours Worked <span class="required">*</span></label>
+                            <input type="text" value="40" readonly>
+                        </div>
+                        <div class="form-group">
+                            <label>Total Pay Received (excl. tips) <span class="required">*</span></label>
+                            <input type="text" value="$412.00" readonly>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Total Tips Received</label>
+                            <input type="text" value="$156.00" readonly>
+                        </div>
+                        <div class="form-group">
+                            <label>Effective Hourly Rate</label>
+                            <input type="text" value="$10.30/hr" readonly style="border-color: #d32f2f; background: #fce8e6;">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-section">
+                    <h3>Complaint Details <span class="agent-badge">Auto-generated by Data Agent</span></h3>
+                    <div class="form-group">
+                        <label>Description of Underpayment <span class="required">*</span></label>
+                        <textarea readonly style="min-height: 120px;">I, Carlos Rivera, am filing this complaint regarding underpayment by QuickEats (UberEats-style) for the pay period of March 17-23, 2026. During this period, I worked 40 hours in the Bronx and received $412.00 in base pay, resulting in an effective hourly pay rate of $10.30/hr. This is $11.83/hr below the NYC minimum delivery worker pay rate of $22.13/hr (effective April 1, 2026, per NYC Administrative Code Section 20-1522). The total underpayment for this period is $473.20. The Bronx borough average hourly pay is $20.10/hr, and the citywide average is $24.03/hr, both significantly above my rate. I request that DCWP investigate this violation and ensure I receive the full compensation owed.</textarea>
+                    </div>
+                </div>
+
+                <button type="button" class="submit-btn" style="background: #34a853;">&#10003; COMPLAINT SUBMITTED SUCCESSFULLY</button>
+            </form>
+        </div>
+    </div>
+</body>
+</html>

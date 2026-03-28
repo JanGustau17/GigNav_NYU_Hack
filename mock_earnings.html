@@ -3,101 +3,197 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>QuickEats - Driver Earnings Dashboard</title>
+    <title>QuickEats - Driver Earnings</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #0d1117; color: #e6edf3; min-height: 100vh; }
-        .header { background: #161b22; padding: 16px 24px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #30363d; }
-        .header h1 { font-size: 20px; color: #58a6ff; }
-        .header .user { color: #8b949e; font-size: 14px; }
-        .container { max-width: 800px; margin: 24px auto; padding: 0 16px; }
-        .period-selector { background: #161b22; border-radius: 12px; padding: 16px; margin-bottom: 20px; border: 1px solid #30363d; display: flex; justify-content: space-between; align-items: center; }
-        .period-selector span { color: #8b949e; font-size: 14px; }
-        .period-selector strong { color: #e6edf3; font-size: 16px; }
-        .stats-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; margin-bottom: 20px; }
-        .stat-card { background: #161b22; border-radius: 12px; padding: 20px; border: 1px solid #30363d; }
-        .stat-card .label { font-size: 13px; color: #8b949e; margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.5px; }
-        .stat-card .value { font-size: 32px; font-weight: 700; }
-        .stat-card .sub { font-size: 13px; color: #8b949e; margin-top: 4px; }
-        .earnings { color: #3fb950; }
-        .hours { color: #58a6ff; }
-        .rate { color: #f0883e; }
-        .tips { color: #bc8cff; }
-        .alert-banner { background: #2d1b1b; border: 1px solid #f8514966; border-radius: 12px; padding: 16px; margin-bottom: 20px; }
-        .alert-banner .title { color: #f85149; font-weight: 600; font-size: 15px; margin-bottom: 6px; }
-        .alert-banner .desc { color: #f0883e; font-size: 13px; line-height: 1.5; }
-        .breakdown { background: #161b22; border-radius: 12px; padding: 20px; border: 1px solid #30363d; }
-        .breakdown h3 { font-size: 16px; margin-bottom: 16px; color: #e6edf3; }
-        .breakdown-row { display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid #21262d; }
-        .breakdown-row:last-child { border-bottom: none; }
-        .breakdown-row .day { color: #8b949e; }
-        .breakdown-row .amount { color: #3fb950; font-weight: 600; }
-        .breakdown-row .hrs { color: #58a6ff; font-size: 13px; }
-        .worker-info { background: #161b22; border-radius: 12px; padding: 20px; border: 1px solid #30363d; margin-bottom: 20px; }
-        .worker-info h3 { font-size: 16px; margin-bottom: 12px; }
-        .info-row { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #21262d; }
-        .info-row:last-child { border-bottom: none; }
-        .info-row .key { color: #8b949e; }
-        .info-row .val { color: #e6edf3; font-weight: 500; }
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #0a0a0a; color: #fff; min-height: 100vh; }
+
+        .app-bar { background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%); padding: 14px 20px; display: flex; justify-content: space-between; align-items: center; }
+        .app-bar .logo { display: flex; align-items: center; gap: 10px; }
+        .app-bar .logo-icon { width: 36px; height: 36px; background: linear-gradient(135deg, #00d2ff, #3a7bd5); border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 18px; font-weight: 800; color: white; }
+        .app-bar .logo-text { font-size: 18px; font-weight: 700; letter-spacing: -0.5px; }
+        .app-bar .profile { display: flex; align-items: center; gap: 10px; }
+        .app-bar .profile-pic { width: 32px; height: 32px; background: #3a7bd5; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: 600; }
+        .app-bar .profile-name { font-size: 13px; color: #94a3b8; }
+
+        .container { max-width: 480px; margin: 0 auto; padding: 16px; }
+
+        .hero-card { background: linear-gradient(135deg, #1e3a5f 0%, #0f2027 50%, #203a43 100%); border-radius: 20px; padding: 24px; margin-bottom: 16px; position: relative; overflow: hidden; }
+        .hero-card::before { content: ''; position: absolute; top: -50%; right: -30%; width: 200px; height: 200px; background: radial-gradient(circle, rgba(0,210,255,0.15) 0%, transparent 70%); }
+        .hero-card .period { font-size: 12px; color: #64748b; text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 4px; }
+        .hero-card .period-date { font-size: 14px; color: #94a3b8; margin-bottom: 20px; }
+        .hero-card .total-label { font-size: 13px; color: #64748b; text-transform: uppercase; letter-spacing: 1px; }
+        .hero-card .total-amount { font-size: 48px; font-weight: 800; letter-spacing: -2px; background: linear-gradient(135deg, #00d2ff, #3a7bd5); -webkit-background-clip: text; -webkit-text-fill-color: transparent; line-height: 1.1; }
+        .hero-card .total-sub { font-size: 13px; color: #64748b; margin-top: 4px; }
+        .hero-card .split { display: flex; gap: 20px; margin-top: 20px; padding-top: 16px; border-top: 1px solid rgba(255,255,255,0.08); }
+        .hero-card .split-item { flex: 1; }
+        .hero-card .split-label { font-size: 11px; color: #64748b; text-transform: uppercase; letter-spacing: 0.5px; }
+        .hero-card .split-value { font-size: 22px; font-weight: 700; margin-top: 2px; }
+        .hero-card .split-value.pay { color: #3b82f6; }
+        .hero-card .split-value.tips { color: #a78bfa; }
+
+        .alert { background: linear-gradient(135deg, #450a0a, #7f1d1d); border: 1px solid #dc2626; border-radius: 16px; padding: 16px 18px; margin-bottom: 16px; display: flex; gap: 12px; align-items: flex-start; }
+        .alert-icon { width: 40px; height: 40px; background: #dc2626; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 20px; flex-shrink: 0; }
+        .alert-content h3 { font-size: 14px; color: #fca5a5; font-weight: 700; }
+        .alert-content p { font-size: 12px; color: #fca5a5; opacity: 0.8; margin-top: 3px; line-height: 1.4; }
+
+        .metrics { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 16px; }
+        .metric { background: #111827; border: 1px solid #1e293b; border-radius: 16px; padding: 16px; }
+        .metric .icon { width: 32px; height: 32px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 16px; margin-bottom: 10px; }
+        .metric .label { font-size: 11px; color: #64748b; text-transform: uppercase; letter-spacing: 0.5px; }
+        .metric .value { font-size: 26px; font-weight: 800; margin-top: 2px; letter-spacing: -1px; }
+        .metric .sub { font-size: 11px; color: #475569; margin-top: 2px; }
+        .metric.hours .icon { background: rgba(59,130,246,0.15); }
+        .metric.hours .value { color: #3b82f6; }
+        .metric.rate .icon { background: rgba(245,158,11,0.15); }
+        .metric.rate .value { color: #f59e0b; }
+        .metric.owed .icon { background: rgba(220,38,38,0.15); }
+        .metric.owed .value { color: #ef4444; }
+        .metric.trips .icon { background: rgba(16,185,129,0.15); }
+        .metric.trips .value { color: #10b981; }
+
+        .section-title { font-size: 14px; font-weight: 700; color: #94a3b8; margin-bottom: 10px; text-transform: uppercase; letter-spacing: 1px; }
+
+        .worker-card { background: #111827; border: 1px solid #1e293b; border-radius: 16px; padding: 18px; margin-bottom: 16px; }
+        .worker-row { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #1e293b; }
+        .worker-row:last-child { border-bottom: none; }
+        .worker-row .k { font-size: 13px; color: #64748b; }
+        .worker-row .v { font-size: 13px; color: #e2e8f0; font-weight: 600; }
+
+        .daily { background: #111827; border: 1px solid #1e293b; border-radius: 16px; overflow: hidden; margin-bottom: 16px; }
+        .daily-row { display: flex; justify-content: space-between; align-items: center; padding: 12px 18px; border-bottom: 1px solid #1e293b; }
+        .daily-row:last-child { border-bottom: none; }
+        .daily-row .day { font-size: 13px; color: #94a3b8; font-weight: 500; }
+        .daily-row .bar-wrap { flex: 1; margin: 0 16px; height: 6px; background: #1e293b; border-radius: 3px; overflow: hidden; }
+        .daily-row .bar { height: 100%; border-radius: 3px; background: linear-gradient(90deg, #3b82f6, #60a5fa); }
+        .daily-row .amount { font-size: 13px; color: #10b981; font-weight: 700; min-width: 60px; text-align: right; }
+        .daily-row .hrs { font-size: 11px; color: #475569; min-width: 45px; text-align: right; }
+
+        .comparison { background: #111827; border: 1px solid #1e293b; border-radius: 16px; padding: 18px; margin-bottom: 16px; }
+        .comp-bar { margin-bottom: 14px; }
+        .comp-bar .comp-label { display: flex; justify-content: space-between; font-size: 12px; margin-bottom: 4px; }
+        .comp-bar .comp-label .name { color: #94a3b8; }
+        .comp-bar .comp-label .val { font-weight: 700; }
+        .comp-bar .track { height: 8px; background: #1e293b; border-radius: 4px; overflow: hidden; }
+        .comp-bar .fill { height: 100%; border-radius: 4px; }
+        .comp-bar.you .comp-label .val { color: #ef4444; }
+        .comp-bar.you .fill { background: #ef4444; }
+        .comp-bar.min .comp-label .val { color: #f59e0b; }
+        .comp-bar.min .fill { background: #f59e0b; }
+        .comp-bar.avg .comp-label .val { color: #10b981; }
+        .comp-bar.avg .fill { background: #10b981; }
     </style>
 </head>
 <body>
-    <div class="header">
-        <h1>QuickEats Driver</h1>
-        <div class="user">Carlos Rivera | Bronx, NY</div>
-    </div>
-    <div class="container">
-        <div class="worker-info">
-            <h3>Worker Profile</h3>
-            <div class="info-row"><span class="key">Name</span><span class="val">Carlos Rivera</span></div>
-            <div class="info-row"><span class="key">Borough</span><span class="val">Bronx</span></div>
-            <div class="info-row"><span class="key">Vehicle</span><span class="val">E-Bike</span></div>
-            <div class="info-row"><span class="key">App Platform</span><span class="val">QuickEats (UberEats-style)</span></div>
-            <div class="info-row"><span class="key">Worker ID</span><span class="val">QE-2024-88431</span></div>
+    <div class="app-bar">
+        <div class="logo">
+            <div class="logo-icon">Q</div>
+            <div class="logo-text">QuickEats <span style="font-weight:400;color:#64748b;font-size:13px;">Driver</span></div>
         </div>
-
-        <div class="period-selector">
-            <div><span>Pay Period</span><br><strong>March 17 - March 23, 2026</strong></div>
-            <div><span>Status</span><br><strong style="color: #f85149;">Review Needed</strong></div>
-        </div>
-
-        <div class="alert-banner">
-            <div class="title">Potential Underpayment Detected</div>
-            <div class="desc">Your effective hourly rate of $14.20/hr is below the NYC minimum delivery worker pay rate of $22.13/hr (effective April 1, 2026). You may be eligible to file a wage dispute with NYC DCWP.</div>
-        </div>
-
-        <div class="stats-grid">
-            <div class="stat-card">
-                <div class="label">Total Earnings</div>
-                <div class="value earnings">$568.00</div>
-                <div class="sub">Pay: $412.00 | Tips: $156.00</div>
+        <div class="profile">
+            <div>
+                <div style="font-size:13px;font-weight:600;">Carlos R.</div>
+                <div class="profile-name">Bronx, NY</div>
             </div>
-            <div class="stat-card">
-                <div class="label">Hours Worked</div>
-                <div class="value hours">40 hrs</div>
+            <div class="profile-pic">CR</div>
+        </div>
+    </div>
+
+    <div class="container">
+        <!-- Hero Earnings Card -->
+        <div class="hero-card">
+            <div class="period">Weekly Earnings</div>
+            <div class="period-date">March 17 - 23, 2026</div>
+            <div class="total-label">Total Earned</div>
+            <div class="total-amount">$568.00</div>
+            <div class="total-sub">40 hours worked this week</div>
+            <div class="split">
+                <div class="split-item">
+                    <div class="split-label">Base Pay</div>
+                    <div class="split-value pay">$412.00</div>
+                </div>
+                <div class="split-item">
+                    <div class="split-label">Tips</div>
+                    <div class="split-value tips">$156.00</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Underpayment Alert -->
+        <div class="alert">
+            <div class="alert-icon">!</div>
+            <div class="alert-content">
+                <h3>Below NYC Minimum Pay Rate</h3>
+                <p>Your effective rate of <strong>$14.20/hr</strong> is below the NYC minimum of <strong>$22.13/hr</strong>. You may be owed <strong>$317.20</strong> for this period.</p>
+            </div>
+        </div>
+
+        <!-- Key Metrics -->
+        <div class="metrics">
+            <div class="metric hours">
+                <div class="icon">&#128337;</div>
+                <div class="label">Hours</div>
+                <div class="value">40h</div>
                 <div class="sub">Trip: 29h | On-call: 11h</div>
             </div>
-            <div class="stat-card">
-                <div class="label">Effective Hourly Rate</div>
-                <div class="value rate">$14.20/hr</div>
-                <div class="sub">NYC Min: $22.13/hr</div>
+            <div class="metric rate">
+                <div class="icon">&#128200;</div>
+                <div class="label">Your Rate</div>
+                <div class="value">$14.20</div>
+                <div class="sub">per hour (incl. tips)</div>
             </div>
-            <div class="stat-card">
-                <div class="label">Underpayment Amount</div>
-                <div class="value" style="color: #f85149;">$317.20</div>
-                <div class="sub">($22.13 - $14.20) x 40 hrs</div>
+            <div class="metric owed">
+                <div class="icon">&#9888;</div>
+                <div class="label">Underpaid</div>
+                <div class="value">$317.20</div>
+                <div class="sub">($22.13 - $14.20) x 40h</div>
+            </div>
+            <div class="metric trips">
+                <div class="icon">&#128666;</div>
+                <div class="label">Deliveries</div>
+                <div class="value">67</div>
+                <div class="sub">Avg $8.48 per trip</div>
             </div>
         </div>
 
-        <div class="breakdown">
-            <h3>Daily Breakdown</h3>
-            <div class="breakdown-row"><span class="day">Mon, Mar 17</span><span class="hrs">6.5 hrs</span><span class="amount">$89.50</span></div>
-            <div class="breakdown-row"><span class="day">Tue, Mar 18</span><span class="hrs">5.0 hrs</span><span class="amount">$68.00</span></div>
-            <div class="breakdown-row"><span class="day">Wed, Mar 19</span><span class="hrs">6.0 hrs</span><span class="amount">$82.50</span></div>
-            <div class="breakdown-row"><span class="day">Thu, Mar 20</span><span class="hrs">5.5 hrs</span><span class="amount">$76.00</span></div>
-            <div class="breakdown-row"><span class="day">Fri, Mar 21</span><span class="hrs">7.0 hrs</span><span class="amount">$98.00</span></div>
-            <div class="breakdown-row"><span class="day">Sat, Mar 22</span><span class="hrs">5.5 hrs</span><span class="amount">$82.00</span></div>
-            <div class="breakdown-row"><span class="day">Sun, Mar 23</span><span class="hrs">4.5 hrs</span><span class="amount">$72.00</span></div>
+        <!-- Rate Comparison -->
+        <div class="section-title">Rate Comparison</div>
+        <div class="comparison">
+            <div class="comp-bar you">
+                <div class="comp-label"><span class="name">Your Rate</span><span class="val">$14.20/hr</span></div>
+                <div class="track"><div class="fill" style="width:57%"></div></div>
+            </div>
+            <div class="comp-bar min">
+                <div class="comp-label"><span class="name">NYC Minimum</span><span class="val">$22.13/hr</span></div>
+                <div class="track"><div class="fill" style="width:89%"></div></div>
+            </div>
+            <div class="comp-bar avg">
+                <div class="comp-label"><span class="name">City Average</span><span class="val">$24.03/hr</span></div>
+                <div class="track"><div class="fill" style="width:97%"></div></div>
+            </div>
+        </div>
+
+        <!-- Daily Breakdown -->
+        <div class="section-title">Daily Breakdown</div>
+        <div class="daily">
+            <div class="daily-row"><span class="day">Mon</span><div class="bar-wrap"><div class="bar" style="width:91%"></div></div><span class="hrs">6.5h</span><span class="amount">$89.50</span></div>
+            <div class="daily-row"><span class="day">Tue</span><div class="bar-wrap"><div class="bar" style="width:69%"></div></div><span class="hrs">5.0h</span><span class="amount">$68.00</span></div>
+            <div class="daily-row"><span class="day">Wed</span><div class="bar-wrap"><div class="bar" style="width:84%"></div></div><span class="hrs">6.0h</span><span class="amount">$82.50</span></div>
+            <div class="daily-row"><span class="day">Thu</span><div class="bar-wrap"><div class="bar" style="width:77%"></div></div><span class="hrs">5.5h</span><span class="amount">$76.00</span></div>
+            <div class="daily-row"><span class="day">Fri</span><div class="bar-wrap"><div class="bar" style="width:100%"></div></div><span class="hrs">7.0h</span><span class="amount">$98.00</span></div>
+            <div class="daily-row"><span class="day">Sat</span><div class="bar-wrap"><div class="bar" style="width:84%"></div></div><span class="hrs">5.5h</span><span class="amount">$82.00</span></div>
+            <div class="daily-row"><span class="day">Sun</span><div class="bar-wrap"><div class="bar" style="width:73%"></div></div><span class="hrs">4.5h</span><span class="amount">$72.00</span></div>
+        </div>
+
+        <!-- Worker Info -->
+        <div class="section-title">Worker Profile</div>
+        <div class="worker-card">
+            <div class="worker-row"><span class="k">Name</span><span class="v">Carlos Rivera</span></div>
+            <div class="worker-row"><span class="k">Borough</span><span class="v">Bronx, NY</span></div>
+            <div class="worker-row"><span class="k">Vehicle</span><span class="v">E-Bike</span></div>
+            <div class="worker-row"><span class="k">Platform</span><span class="v">QuickEats</span></div>
+            <div class="worker-row"><span class="k">Worker ID</span><span class="v">QE-2024-88431</span></div>
+            <div class="worker-row"><span class="k">Status</span><span class="v" style="color:#ef4444;">Review Needed</span></div>
         </div>
     </div>
 </body>
