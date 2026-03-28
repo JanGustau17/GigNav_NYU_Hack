@@ -1,0 +1,22 @@
+# GigNav Cloud Build Configuration
+# Cloud Automation Bonus (+0.2 points)
+steps:
+  # Install dependencies
+  - name: 'python:3.13'
+    entrypoint: 'pip'
+    args: ['install', '-r', 'requirements.txt', '--user']
+
+  # Upload DCWP data to BigQuery
+  - name: 'python:3.13'
+    entrypoint: 'python'
+    args: ['upload_to_bq.py']
+    env:
+      - 'GOOGLE_CLOUD_PROJECT=$PROJECT_ID'
+
+  # Run data tool tests
+  - name: 'python:3.13'
+    entrypoint: 'python'
+    args: ['-c', 'from data_tool import check_wage_equity; r = check_wage_equity("Bronx", 40, 568, 412); assert r["status"] == "UNDERPAID"; print("Test passed!")']
+
+options:
+  logging: CLOUD_LOGGING_ONLY

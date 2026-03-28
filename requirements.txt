@@ -1,0 +1,7 @@
+google-genai>=1.42.0
+google-adk[a2a]>=1.28.0
+google-cloud-bigquery>=3.20.0
+playwright
+openpyxl
+fastapi
+uvicorn

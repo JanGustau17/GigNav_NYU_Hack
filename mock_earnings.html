@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QuickEats - Driver Earnings Dashboard</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #0d1117; color: #e6edf3; min-height: 100vh; }
+        .header { background: #161b22; padding: 16px 24px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #30363d; }
+        .header h1 { font-size: 20px; color: #58a6ff; }
+        .header .user { color: #8b949e; font-size: 14px; }
+        .container { max-width: 800px; margin: 24px auto; padding: 0 16px; }
+        .period-selector { background: #161b22; border-radius: 12px; padding: 16px; margin-bottom: 20px; border: 1px solid #30363d; display: flex; justify-content: space-between; align-items: center; }
+        .period-selector span { color: #8b949e; font-size: 14px; }
+        .period-selector strong { color: #e6edf3; font-size: 16px; }
+        .stats-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; margin-bottom: 20px; }
+        .stat-card { background: #161b22; border-radius: 12px; padding: 20px; border: 1px solid #30363d; }
+        .stat-card .label { font-size: 13px; color: #8b949e; margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.5px; }
+        .stat-card .value { font-size: 32px; font-weight: 700; }
+        .stat-card .sub { font-size: 13px; color: #8b949e; margin-top: 4px; }
+        .earnings { color: #3fb950; }
+        .hours { color: #58a6ff; }
+        .rate { color: #f0883e; }
+        .tips { color: #bc8cff; }
+        .alert-banner { background: #2d1b1b; border: 1px solid #f8514966; border-radius: 12px; padding: 16px; margin-bottom: 20px; }
+        .alert-banner .title { color: #f85149; font-weight: 600; font-size: 15px; margin-bottom: 6px; }
+        .alert-banner .desc { color: #f0883e; font-size: 13px; line-height: 1.5; }
+        .breakdown { background: #161b22; border-radius: 12px; padding: 20px; border: 1px solid #30363d; }
+        .breakdown h3 { font-size: 16px; margin-bottom: 16px; color: #e6edf3; }
+        .breakdown-row { display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid #21262d; }
+        .breakdown-row:last-child { border-bottom: none; }
+        .breakdown-row .day { color: #8b949e; }
+        .breakdown-row .amount { color: #3fb950; font-weight: 600; }
+        .breakdown-row .hrs { color: #58a6ff; font-size: 13px; }
+        .worker-info { background: #161b22; border-radius: 12px; padding: 20px; border: 1px solid #30363d; margin-bottom: 20px; }
+        .worker-info h3 { font-size: 16px; margin-bottom: 12px; }
+        .info-row { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #21262d; }
+        .info-row:last-child { border-bottom: none; }
+        .info-row .key { color: #8b949e; }
+        .info-row .val { color: #e6edf3; font-weight: 500; }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>QuickEats Driver</h1>
+        <div class="user">Carlos Rivera | Bronx, NY</div>
+    </div>
+    <div class="container">
+        <div class="worker-info">
+            <h3>Worker Profile</h3>
+            <div class="info-row"><span class="key">Name</span><span class="val">Carlos Rivera</span></div>
+            <div class="info-row"><span class="key">Borough</span><span class="val">Bronx</span></div>
+            <div class="info-row"><span class="key">Vehicle</span><span class="val">E-Bike</span></div>
+            <div class="info-row"><span class="key">App Platform</span><span class="val">QuickEats (UberEats-style)</span></div>
+            <div class="info-row"><span class="key">Worker ID</span><span class="val">QE-2024-88431</span></div>
+        </div>
+
+        <div class="period-selector">
+            <div><span>Pay Period</span><br><strong>March 17 - March 23, 2026</strong></div>
+            <div><span>Status</span><br><strong style="color: #f85149;">Review Needed</strong></div>
+        </div>
+
+        <div class="alert-banner">
+            <div class="title">Potential Underpayment Detected</div>
+            <div class="desc">Your effective hourly rate of $14.20/hr is below the NYC minimum delivery worker pay rate of $22.13/hr (effective April 1, 2026). You may be eligible to file a wage dispute with NYC DCWP.</div>
+        </div>
+
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="label">Total Earnings</div>
+                <div class="value earnings">$568.00</div>
+                <div class="sub">Pay: $412.00 | Tips: $156.00</div>
+            </div>
+            <div class="stat-card">
+                <div class="label">Hours Worked</div>
+                <div class="value hours">40 hrs</div>
+                <div class="sub">Trip: 29h | On-call: 11h</div>
+            </div>
+            <div class="stat-card">
+                <div class="label">Effective Hourly Rate</div>
+                <div class="value rate">$14.20/hr</div>
+                <div class="sub">NYC Min: $22.13/hr</div>
+            </div>
+            <div class="stat-card">
+                <div class="label">Underpayment Amount</div>
+                <div class="value" style="color: #f85149;">$317.20</div>
+                <div class="sub">($22.13 - $14.20) x 40 hrs</div>
+            </div>
+        </div>
+
+        <div class="breakdown">
+            <h3>Daily Breakdown</h3>
+            <div class="breakdown-row"><span class="day">Mon, Mar 17</span><span class="hrs">6.5 hrs</span><span class="amount">$89.50</span></div>
+            <div class="breakdown-row"><span class="day">Tue, Mar 18</span><span class="hrs">5.0 hrs</span><span class="amount">$68.00</span></div>
+            <div class="breakdown-row"><span class="day">Wed, Mar 19</span><span class="hrs">6.0 hrs</span><span class="amount">$82.50</span></div>
+            <div class="breakdown-row"><span class="day">Thu, Mar 20</span><span class="hrs">5.5 hrs</span><span class="amount">$76.00</span></div>
+            <div class="breakdown-row"><span class="day">Fri, Mar 21</span><span class="hrs">7.0 hrs</span><span class="amount">$98.00</span></div>
+            <div class="breakdown-row"><span class="day">Sat, Mar 22</span><span class="hrs">5.5 hrs</span><span class="amount">$82.00</span></div>
+            <div class="breakdown-row"><span class="day">Sun, Mar 23</span><span class="hrs">4.5 hrs</span><span class="amount">$72.00</span></div>
+        </div>
+    </div>
+</body>
+</html>

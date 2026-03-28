@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>GigNav Architecture Diagram</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #0d1117; color: #e6edf3; display: flex; justify-content: center; align-items: center; min-height: 100vh; padding: 40px; }
+        .diagram { max-width: 1100px; width: 100%; }
+        h1 { text-align: center; font-size: 28px; margin-bottom: 4px; color: #58a6ff; }
+        .subtitle { text-align: center; color: #8b949e; margin-bottom: 32px; font-size: 14px; }
+        .flow { display: flex; flex-direction: column; gap: 20px; align-items: center; }
+        .row { display: flex; gap: 20px; justify-content: center; flex-wrap: wrap; }
+        .box { background: #161b22; border: 2px solid #30363d; border-radius: 12px; padding: 16px; min-width: 180px; text-align: center; position: relative; }
+        .box h3 { font-size: 13px; margin-bottom: 6px; }
+        .box p { font-size: 11px; color: #8b949e; line-height: 1.4; }
+        .box.voice { border-color: #d2a8ff; background: #1c1026; }
+        .box.voice h3 { color: #d2a8ff; }
+        .box.user { border-color: #58a6ff; }
+        .box.user h3 { color: #58a6ff; }
+        .box.orch { border-color: #f0883e; background: #1c1510; }
+        .box.orch h3 { color: #f0883e; }
+        .box.agent { border-color: #3fb950; background: #0f1c13; }
+        .box.agent h3 { color: #3fb950; }
+        .box.data { border-color: #79c0ff; }
+        .box.data h3 { color: #79c0ff; }
+        .box.target { border-color: #bc8cff; }
+        .box.target h3 { color: #bc8cff; }
+        .arrow { color: #484f58; font-size: 20px; text-align: center; }
+        .arrow-label { font-size: 10px; color: #8b949e; }
+        .proto-badge { display: inline-block; background: #21262d; border: 1px solid #30363d; border-radius: 10px; padding: 2px 8px; font-size: 10px; color: #f0883e; margin-top: 4px; }
+        .tech-stack { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; margin-top: 28px; }
+        .tech { background: #21262d; border-radius: 20px; padding: 5px 12px; font-size: 11px; color: #8b949e; }
+        .step-num { background: #f0883e; color: #0d1117; width: 22px; height: 22px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 700; margin-bottom: 6px; }
+        .section-label { background: #21262d; border-radius: 6px; padding: 4px 12px; font-size: 11px; color: #8b949e; text-transform: uppercase; letter-spacing: 1px; }
+    </style>
+</head>
+<body>
+    <div class="diagram">
+        <h1>GigNav Architecture</h1>
+        <div class="subtitle">NYC Delivery Worker Equity Automator | A2A Multi-Agent + Voice + Computer Use</div>
+
+        <div class="flow">
+            <!-- Layer 0: Voice -->
+            <div class="section-label">Voice Interface Layer</div>
+            <div class="row">
+                <div class="box voice" style="min-width: 260px;">
+                    <div class="step-num">1</div>
+                    <h3>&#127908; Voice Input (STT)</h3>
+                    <p>Worker speaks earnings info<br>Gemini Live API / Web Speech API<br>Real-time transcription</p>
+                    <div class="proto-badge">Bidi-Streaming</div>
+                </div>
+                <div class="box user" style="min-width: 260px;">
+                    <div class="step-num">1</div>
+                    <h3>&#128187; Web Interface</h3>
+                    <p>React-style voice + text UI<br>WebSocket real-time connection<br>Screenshot capture for Computer Use</p>
+                </div>
+                <div class="box voice" style="min-width: 260px;">
+                    <div class="step-num">5</div>
+                    <h3>&#128266; Voice Output (TTS)</h3>
+                    <p>Agent speaks results back<br>Gemini Live API audio response<br>Natural conversation flow</p>
+                    <div class="proto-badge">Bidi-Streaming</div>
+                </div>
+            </div>
+
+            <div class="arrow">&#11015; Audio + Text + Screenshots<br><span class="arrow-label">WebSocket / Gemini Live API</span></div>
+
+            <!-- Layer 1: Orchestrator -->
+            <div class="section-label">Orchestrator Layer</div>
+            <div class="row">
+                <div class="box orch" style="min-width: 500px;">
+                    <div class="step-num">2</div>
+                    <h3>&#129504; GigNav Orchestrator Agent</h3>
+                    <p>Main coordinator using Google ADK. Routes requests to specialized sub-agents.<br>
+                    Manages conversation state, voice I/O, and multi-agent delegation.<br>
+                    Model: Gemini 2.5 Flash / Gemini 3 Flash (Computer Use)</p>
+                    <div class="proto-badge">ADK Agent</div>
+                    <div class="proto-badge">A2A Protocol</div>
+                </div>
+            </div>
+
+            <div class="arrow">&#11015; &#11014; A2A Protocol (Agent-to-Agent)<br><span class="arrow-label">Sub-agent delegation via Google ADK</span></div>
+
+            <!-- Layer 2: Sub-agents -->
+            <div class="section-label">Specialized Agent Layer (A2A)</div>
+            <div class="row">
+                <div class="box agent" style="min-width: 280px;">
+                    <div class="step-num">3</div>
+                    <h3>&#128202; Data Agent</h3>
+                    <p>DCWP wage analysis specialist<br>
+                    check_wage_equity()<br>
+                    get_quarterly_stats()<br>
+                    get_borough_comparison()<br>
+                    generate_complaint_text()</p>
+                    <div class="proto-badge">ADK FunctionTools</div>
+                    <div class="proto-badge">A2A Server</div>
+                </div>
+                <div class="box agent" style="min-width: 280px;">
+                    <div class="step-num">4</div>
+                    <h3>&#128065; Navigator Agent</h3>
+                    <p>Browser automation specialist<br>
+                    Gemini Computer Use API<br>
+                    Screen reading + form auto-fill<br>
+                    Playwright browser control</p>
+                    <div class="proto-badge">Computer Use</div>
+                    <div class="proto-badge">A2A Server</div>
+                </div>
+            </div>
+
+            <div class="arrow">&#11015; &#11014;<br><span class="arrow-label">BigQuery SQL / Browser Actions</span></div>
+
+            <!-- Layer 3: Data + Target -->
+            <div class="section-label">Data & Environment Layer</div>
+            <div class="row">
+                <div class="box data">
+                    <h3>&#128450; BigQuery</h3>
+                    <p>DCWP quarterly data<br>14 quarters, 73K+ workers<br>6 delivery apps</p>
+                </div>
+                <div class="box data">
+                    <h3>&#128203; DCWP Rules</h3>
+                    <p>Min pay: $22.13/hr<br>Admin Code 20-1522<br>Inflation adjustments</p>
+                </div>
+                <div class="box target">
+                    <h3>&#128176; Earnings Screen</h3>
+                    <p>Delivery app dashboard<br>Hours, pay, tips<br>Computer Use reads it</p>
+                </div>
+                <div class="box target">
+                    <h3>&#128221; DCWP Form</h3>
+                    <p>Wage complaint form<br>Agent auto-fills all fields<br>Clicks SUBMIT</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="tech-stack">
+            <div class="tech">Gemini 3 Flash</div>
+            <div class="tech">Gemini 2.5 Flash</div>
+            <div class="tech">Computer Use API</div>
+            <div class="tech">Gemini Live API</div>
+            <div class="tech">Google ADK</div>
+            <div class="tech">A2A Protocol</div>
+            <div class="tech">Bidi-Streaming</div>
+            <div class="tech">BigQuery</div>
+            <div class="tech">Vertex AI</div>
+            <div class="tech">Playwright</div>
+            <div class="tech">FastAPI</div>
+            <div class="tech">WebSocket</div>
+            <div class="tech">STT / TTS</div>
+        </div>
+    </div>
+</body>
+</html>
